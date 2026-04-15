@@ -1,6 +1,6 @@
 {
   "name": "@glympse-inc/react-native-glympse-enroute",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "React Native wrapper for Glympse En Route SDK",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
@@ -54,7 +54,7 @@
   "author": "Glympse <nick@glympse.com> (https://developer.glympse.com/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://developer.glympse.com//issues"
+    "url": "https://developer.glympse.com/issues"
   },
   "homepage": "https://developer.glympse.com/#readme",
   "publishConfig": {
