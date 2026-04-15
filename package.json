@@ -1,6 +1,6 @@
 {
-  "name": "react-native-glympse-enroute",
-  "version": "1.0.0",
+  "name": "@glympse-inc/react-native-glympse-enroute",
+  "version": "0.1.0",
   "description": "React Native wrapper for Glympse En Route SDK",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",

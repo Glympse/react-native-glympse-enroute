@@ -1,4 +1,4 @@
-# react-native-glympse-enroute
+# @glympse-inc/react-native-glympse-enroute
 
 React Native wrapper for Glympse En Route SDK
 
@@ -6,7 +6,7 @@ React Native wrapper for Glympse En Route SDK
 
 
 ```sh
-npm install react-native-glympse-enroute
+npm install @glympse-inc/react-native-glympse-enroute
 ```
 
 ## License

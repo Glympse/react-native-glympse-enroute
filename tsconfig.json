@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "react-native-glympse-enroute": ["./src/index"]
+      "@glympse-inc/react-native-glympse-enroute": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

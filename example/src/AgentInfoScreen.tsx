@@ -12,22 +12,36 @@ import EnRouteWrapper from './EnRouteWrapper';
 import type Agent from '../../src/types/Agent';
 import NativeGlympseEnroute from '../../src/NativeGlympseEnroute';
 
-const AgentInfoScreen = () => {
+const InfoRow = ({
+  label,
+  value,
+  isLast = false,
+}: {
+  label: string;
+  value: string | number;
+  isLast?: boolean;
+}) => (
+  <View style={[styles.infoRow, isLast && styles.noBorder]}>
+    <Text style={styles.label}>{label}</Text>
+    <Text style={styles.value}>{value ?? 'N/A'}</Text>
+  </View>
+);
 
+const AgentInfoScreen = () => {
   const [agent, setAgent] = React.useState<Agent | null>();
 
-  const { 
-        LOGOUT_REASON_USER_ACTION
-      } = NativeGlympseEnroute.getConstants();
+  const { LOGOUT_REASON_USER_ACTION } = NativeGlympseEnroute.getConstants();
 
   useEffect(() => {
-      const loadAgent = async () => {
-        const agentData = await EnRouteWrapper.instance().getEnRoute().getSelfAgent();
-        setAgent(agentData);
-      };
-      
-      loadAgent();
-    }, []);
+    const loadAgent = async () => {
+      const agentData = await EnRouteWrapper.instance()
+        .getEnRoute()
+        .getSelfAgent();
+      setAgent(agentData);
+    };
+
+    loadAgent();
+  }, []);
 
   const formatRoles = (roles: string[]) => {
     if (!roles || roles.length === 0) {
@@ -36,47 +50,45 @@ const AgentInfoScreen = () => {
     return roles.join(', ');
   };
 
-  const InfoRow = ({ label, value, isLast = false }: { label: string; value: string | number; isLast?: boolean }) => (
-      <View style={[styles.infoRow, isLast && styles.noBorder]}>
-        <Text style={styles.label}>{label}</Text>
-        <Text style={styles.value}>{value ?? 'N/A'}</Text>
-      </View>
-    );
-
   return (
-      <SafeAreaView style={styles.container}>
-      {agent ?       
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        <View style={styles.headerSection}>
-          <Text style={styles.idText}>Agent #{agent.id}</Text>
+    <SafeAreaView style={styles.container}>
+      {agent ? (
+        <ScrollView contentContainerStyle={styles.scrollContent}>
+          <View style={styles.headerSection}>
+            <Text style={styles.idText}>Agent #{agent.id}</Text>
+          </View>
+
+          <Image
+            style={styles.avatar}
+            source={{
+              uri: agent.avatarUrl,
+            }}
+          />
+
+          <View style={styles.card}>
+            <Text style={styles.sectionTitle}>General Information</Text>
+            <InfoRow label="Display Name" value={agent.displayName} />
+            <InfoRow label="Name" value={agent.name} />
+            <InfoRow label="Email" value={agent.email} />
+            <InfoRow label="Roles" value={formatRoles(agent.roles)} isLast />
+          </View>
+
+          <TouchableOpacity
+            style={styles.headerButton}
+            onPress={() =>
+              EnRouteWrapper.instance()
+                .getEnRoute()
+                .logout(LOGOUT_REASON_USER_ACTION)
+            }
+          >
+            <Text style={styles.buttonText}>Logout</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      ) : (
+        <View style={styles.loadingView}>
+          <Text style={styles.loadingText}>Loading...</Text>
         </View>
-
-        <Image
-          style={styles.avatar}
-          source={{
-            uri: agent.avatarUrl,
-          }}
-        />
-
-        <View style={styles.card}>
-          <Text style={styles.sectionTitle}>General Information</Text>
-          <InfoRow label="Display Name" value={agent.displayName} />
-          <InfoRow label="Name" value={agent.name} />
-          <InfoRow label="Email" value={agent.email} />
-          <InfoRow label="Roles" value={formatRoles(agent.roles)} isLast />
-        </View>
-
-        <TouchableOpacity 
-          style={styles.headerButton} 
-          onPress={() => EnRouteWrapper.instance().getEnRoute().logout(LOGOUT_REASON_USER_ACTION)}>
-          <Text style={styles.buttonText}>Logout</Text>
-        </TouchableOpacity>
-
-      </ScrollView>
-      : <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text style={{ fontSize: 16, color: '#666' }}>Loading...</Text>
-        </View>
-      }
+      )}
     </SafeAreaView>
   );
 };
@@ -166,6 +178,15 @@ const styles = StyleSheet.create({
     color: '#1a1a1a',
     flex: 2,
     textAlign: 'right',
+  },
+  loadingView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    fontSize: 16,
+    color: '#666',
   },
 });
 

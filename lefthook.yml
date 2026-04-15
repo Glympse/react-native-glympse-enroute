@@ -1,3 +1,4 @@
+rc: ~/.bashrc 
 pre-commit:
   parallel: true
   commands:
