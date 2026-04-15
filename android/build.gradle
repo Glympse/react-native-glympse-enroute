@@ -1,3 +1,11 @@
+repositories {
+  google()
+  mavenCentral()
+  maven {
+    url "https://raw.github.com/Glympse/glympse-android-sdk-release/master"
+  }
+}
+
 buildscript {
   ext.GlympseEnroute = [
     kotlinVersion: "2.0.21",
@@ -12,15 +20,6 @@ buildscript {
     }
 
     return GlympseEnroute[prop]
-  }
-
-  repositories {
-    google()
-    mavenCentral()
-    maven {
-        url "https://raw.github.com/Glympse/glympse-android-sdk-release/master"
-    }
-
   }
 
   dependencies {
